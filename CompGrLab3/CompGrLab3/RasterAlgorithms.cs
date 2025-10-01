@@ -88,6 +88,8 @@ namespace CompGrLab3
             int texW = textureBitmap.Width;
             int texH = textureBitmap.Height;
 
+            if (texW <= 0 || texH <= 0) return;
+
             while (stack.Count > 0)
             {
                 Point p = stack.Pop();
@@ -107,8 +109,12 @@ namespace CompGrLab3
 
                 for (int i = x_left; i <= x_right; i++)
                 {
-                    int texX = i % texW;
-                    int texY = y % texH;
+                    int offsetX = i - startPoint.X;
+                    int offsetY = y - startPoint.Y;
+
+                    int texX = (offsetX % texW + texW) % texW;
+                    int texY = (offsetY % texH + texH) % texH;
+
                     Color fillColor = textureBitmap.GetPixel(texX, texY);
 
                     bmp.SetPixel(i, y, fillColor);
